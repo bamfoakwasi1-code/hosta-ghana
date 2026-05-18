@@ -59,8 +59,8 @@ export default function Home() {
           <a href="#" className="nav-link" style={{ color: "#555", fontSize: "15px", textDecoration: "none", fontWeight: 500 }}>List Hostel</a>
         </div>
         <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-          <button className="btn-outline" style={{ padding: "8px 20px", borderRadius: "8px", border: "1.5px solid #1a6e3c", color: "#1a6e3c", background: "transparent", fontWeight: 600, fontSize: "14px", cursor: "pointer" }}>Log in</a>
-          <button className="btn-primary" style={{ padding: "8px 20px", borderRadius: "8px", background: "#1a6e3c", color: "white", border: "none", fontWeight: 600, fontSize: "14px", cursor: "pointer" textDecoration: "none" }}>Sign up free</a>
+          <a href="/login" className="btn-outline" style={{ padding: "8px 20px", borderRadius: "8px", border: "1.5px solid #1a6e3c", color: "#1a6e3c", background: "transparent", fontWeight: 600, fontSize: "14px", cursor: "pointer" }}>Log in</a>
+          <a href="/signup" className="btn-primary" style={{ padding: "8px 20px", borderRadius: "8px", background: "#1a6e3c", color: "white", border: "none", fontWeight: 600, fontSize: "14px", cursor: "pointer" textDecoration: "none" }}>Sign up free</a>
         </div>
       </nav>
 
