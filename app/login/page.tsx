@@ -22,7 +22,12 @@ export default function Login() {
     if (error) {
       setError(error.message);
     } else {
-      window.location.href = "/dashboard";
+      const userRole = data.user?.user_metadata?.role;
+      if (userRole === "manager") {
+        window.location.href = "/dashboard";
+      } else {
+        window.location.href = "/listings";
+      }
     }
   };
 
@@ -34,7 +39,6 @@ export default function Login() {
         .input-field:focus { border-color: #1a6e3c; outline: none; box-shadow: 0 0 0 3px rgba(26,110,60,0.12); }
         .btn-primary:hover { background: #155c32; }
         .btn-primary { transition: all 0.15s ease; }
-        .tab-btn { transition: all 0.15s ease; cursor: pointer; }
       `}</style>
 
       <nav style={{ background: "white", padding: "0 5%", display: "flex", justifyContent: "space-between", alignItems: "center", height: "68px", borderBottom: "1px solid #ece9e0" }}>
