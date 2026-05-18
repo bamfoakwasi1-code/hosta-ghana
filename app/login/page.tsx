@@ -1,4 +1,31 @@
+"use client";
+import { useState } from "react";
+import { supabase } from "../lib/supabase";
+
 export default function Login() {
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    if (!form.email || !form.password) {
+      setError("Please enter your email and password.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    });
+    setLoading(false);
+    if (error) {
+      setError(error.message);
+    } else {
+      window.location.href = "/dashboard";
+    }
+  };
+
   return (
     <main style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: "#f7f6f2", display: "flex", flexDirection: "column" }}>
       <style>{`
@@ -7,14 +34,9 @@ export default function Login() {
         .input-field:focus { border-color: #1a6e3c; outline: none; box-shadow: 0 0 0 3px rgba(26,110,60,0.12); }
         .btn-primary:hover { background: #155c32; }
         .btn-primary { transition: all 0.15s ease; }
-        .tab-active { border-bottom: 2px solid #1a6e3c; color: #1a6e3c; font-weight: 600; }
-        .tab-inactive { border-bottom: 2px solid transparent; color: #888; }
-        .tab-inactive:hover { color: #1a6e3c; }
-        .social-btn:hover { background: #f0f0f0; }
-        .social-btn { transition: background 0.15s; }
+        .tab-btn { transition: all 0.15s ease; cursor: pointer; }
       `}</style>
 
-      {/* Navbar */}
       <nav style={{ background: "white", padding: "0 5%", display: "flex", justifyContent: "space-between", alignItems: "center", height: "68px", borderBottom: "1px solid #ece9e0" }}>
         <a href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "10px" }}>
           <div style={{ width: "36px", height: "36px", background: "#1a6e3c", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -30,66 +52,35 @@ export default function Login() {
         </p>
       </nav>
 
-      {/* Login Form */}
       <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 20px" }}>
         <div style={{ background: "white", borderRadius: "20px", padding: "40px", width: "100%", maxWidth: "440px", border: "1.5px solid #ece9e0", boxShadow: "0 8px 40px rgba(0,0,0,0.06)" }}>
-
           <div style={{ textAlign: "center", marginBottom: "32px" }}>
             <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "28px", color: "#1a1a1a", marginBottom: "8px" }}>Welcome back</h1>
             <p style={{ color: "#888", fontSize: "15px" }}>Log in to your Hosta Ghana account</p>
           </div>
 
-          {/* Role Tabs */}
-          <div style={{ display: "flex", borderBottom: "1px solid #ece9e0", marginBottom: "28px" }}>
-            <button className="tab-active" style={{ flex: 1, padding: "12px", background: "none", border: "none", cursor: "pointer", fontSize: "14px" }}>
-              🎓 Student
-            </button>
-            <button className="tab-inactive" style={{ flex: 1, padding: "12px", background: "none", border: "none", cursor: "pointer", fontSize: "14px" }}>
-              🏢 Hostel Manager
-            </button>
-          </div>
+          {error && (
+            <div style={{ background: "#fff0f0", border: "1px solid #ffcccc", borderRadius: "10px", padding: "12px", marginBottom: "16px", fontSize: "13px", color: "#cc0000" }}>
+              ⚠️ {error}
+            </div>
+          )}
 
-          {/* Form */}
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             <div>
               <label style={{ fontSize: "13px", fontWeight: 600, color: "#444", display: "block", marginBottom: "6px" }}>Email address</label>
-              <input
-                className="input-field"
-                type="email"
-                placeholder="you@example.com"
-                style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #e5e2d8", borderRadius: "10px", fontSize: "14px", color: "#333", background: "#fafaf8" }}
-              />
+              <input className="input-field" type="email" placeholder="you@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #e5e2d8", borderRadius: "10px", fontSize: "14px", background: "#fafaf8" }} />
             </div>
-
             <div>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
                 <label style={{ fontSize: "13px", fontWeight: 600, color: "#444" }}>Password</label>
-                <a href="#" style={{ fontSize: "13px", color: "#1a6e3c", textDecoration: "none", fontWeight: 500 }}>Forgot password?</a>
+                <a href="#" style={{ fontSize: "13px", color: "#1a6e3c", textDecoration: "none" }}>Forgot password?</a>
               </div>
-              <input
-                className="input-field"
-                type="password"
-                placeholder="Enter your password"
-                style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #e5e2d8", borderRadius: "10px", fontSize: "14px", color: "#333", background: "#fafaf8" }}
-              />
+              <input className="input-field" type="password" placeholder="Enter your password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #e5e2d8", borderRadius: "10px", fontSize: "14px", background: "#fafaf8" }} />
             </div>
-
-            <button className="btn-primary" style={{ width: "100%", padding: "14px", background: "#1a6e3c", color: "white", border: "none", borderRadius: "10px", fontSize: "15px", fontWeight: 700, cursor: "pointer", marginTop: "8px" }}>
-              Log in
+            <button className="btn-primary" onClick={handleLogin} style={{ width: "100%", padding: "14px", background: "#1a6e3c", color: "white", border: "none", borderRadius: "10px", fontSize: "15px", fontWeight: 700, cursor: "pointer", marginTop: "8px" }}>
+              {loading ? "Logging in..." : "Log in →"}
             </button>
           </div>
-
-          {/* Divider */}
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", margin: "24px 0" }}>
-            <div style={{ flex: 1, height: "1px", background: "#ece9e0" }} />
-            <span style={{ fontSize: "13px", color: "#aaa" }}>or continue with</span>
-            <div style={{ flex: 1, height: "1px", background: "#ece9e0" }} />
-          </div>
-
-          {/* Google Login */}
-          <button className="social-btn" style={{ width: "100%", padding: "12px", border: "1.5px solid #e5e2d8", borderRadius: "10px", background: "white", fontSize: "14px", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", color: "#333" }}>
-            <span style={{ fontSize: "18px" }}>🌐</span> Continue with Google
-          </button>
 
           <p style={{ textAlign: "center", fontSize: "13px", color: "#888", marginTop: "24px" }}>
             Don't have an account? <a href="/signup" style={{ color: "#1a6e3c", fontWeight: 600, textDecoration: "none" }}>Sign up free</a>
