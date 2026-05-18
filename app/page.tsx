@@ -54,13 +54,13 @@ export default function Home() {
           </div>
         </div>
         <div style={{ display: "flex", gap: "32px", alignItems: "center" }}>
-          <a href="#" className="nav-link" style={{ color: "#555", fontSize: "15px", textDecoration: "none", fontWeight: 500 }}>Find Hostels</a>
-          <a href="#" className="nav-link" style={{ color: "#555", fontSize: "15px", textDecoration: "none", fontWeight: 500 }}>Universities</a>
-          <a href="#" className="nav-link" style={{ color: "#555", fontSize: "15px", textDecoration: "none", fontWeight: 500 }}>List Hostel</a>
+          <a href="/listings" className="nav-link" style={{ color: "#555", fontSize: "15px", textDecoration: "none", fontWeight: 500 }}>Find Hostels</a>
+          <a href="#universities" className="nav-link" style={{ color: "#555", fontSize: "15px", textDecoration: "none", fontWeight: 500 }}>Universities</a>
+          <a href="/payment" className="nav-link" style={{ color: "#555", fontSize: "15px", textDecoration: "none", fontWeight: 500 }}>List Hostel</a>
         </div>
         <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-          <a href="/login" className="btn-outline" style={{ padding: "8px 20px", borderRadius: "8px", border: "1.5px solid #1a6e3c", color: "#1a6e3c", background: "transparent", fontWeight: 600, fontSize: "14px", cursor: "pointer" }}>Log in</a>
-          <a href="/signup" className="btn-primary" style={{ padding: "8px 20px", borderRadius: "8px", background: "#1a6e3c", color: "white", border: "none", fontWeight: 600, fontSize: "14px", cursor: "pointer" textDecoration: "none" }}>Sign up free</a>
+          <a href="/login" className="btn-outline" style={{ padding: "8px 20px", borderRadius: "8px", border: "1.5px solid #1a6e3c", color: "#1a6e3c", fontWeight: 600, fontSize: "14px", textDecoration: "none" }}>Log in</a>
+          <a href="/signup" className="btn-primary" style={{ padding: "8px 20px", borderRadius: "8px", background: "#1a6e3c", color: "white", fontWeight: 600, fontSize: "14px", textDecoration: "none" }}>Sign up free</a>
         </div>
       </nav>
 
@@ -88,7 +88,7 @@ export default function Home() {
               <span style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", fontSize: "16px" }}>📍</span>
               <input className="search-input" type="text" placeholder="Area e.g. Ayeduase, Legon..." style={{ width: "100%", padding: "12px 12px 12px 38px", border: "1.5px solid #e5e2d8", borderRadius: "10px", fontSize: "14px", color: "#333", background: "#fafaf8" }} />
             </div>
-            <button className="btn-primary" style={{ padding: "12px 28px", borderRadius: "10px", background: "#1a6e3c", color: "white", border: "none", fontWeight: 700, fontSize: "15px", cursor: "pointer" }}>🔍 Search</button>
+            <a href="/listings" className="btn-primary" style={{ padding: "12px 28px", borderRadius: "10px", background: "#1a6e3c", color: "white", fontWeight: 700, fontSize: "15px", textDecoration: "none", display: "flex", alignItems: "center" }}>🔍 Search</a>
           </div>
           <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px", marginTop: "16px" }}>Popular: KNUST · UG Legon · UCC · GIMPA</p>
         </div>
@@ -107,21 +107,23 @@ export default function Home() {
       </section>
 
       {/* Universities */}
-      <section style={{ padding: "72px 5%", maxWidth: "1200px", margin: "0 auto" }}>
+      <section id="universities" style={{ padding: "72px 5%", maxWidth: "1200px", margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: "48px" }}>
           <p style={{ color: "#1a6e3c", fontWeight: 600, fontSize: "13px", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "10px" }}>Browse by University</p>
           <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "36px", color: "#1a1a1a", fontWeight: 700 }}>Find hostels near your school</h2>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px" }}>
           {universities.map((uni) => (
-            <div key={uni.name} className="uni-card" style={{ background: "white", borderRadius: "14px", padding: "24px", border: "1.5px solid #ece9e0", cursor: "pointer" }}>
-              <div style={{ width: "48px", height: "48px", background: "#f0f8f3", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "14px" }}>
-                <span style={{ fontSize: "22px" }}>🏛️</span>
+            <a key={uni.name} href="/listings" style={{ textDecoration: "none" }}>
+              <div className="uni-card" style={{ background: "white", borderRadius: "14px", padding: "24px", border: "1.5px solid #ece9e0", cursor: "pointer" }}>
+                <div style={{ width: "48px", height: "48px", background: "#f0f8f3", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "14px" }}>
+                  <span style={{ fontSize: "22px" }}>🏛️</span>
+                </div>
+                <p style={{ fontWeight: 700, fontSize: "20px", color: "#1a1a1a", marginBottom: "4px" }}>{uni.name}</p>
+                <p style={{ fontSize: "13px", color: "#888", marginBottom: "12px" }}>{uni.location}</p>
+                <p style={{ fontSize: "12px", color: "#1a6e3c", fontWeight: 600, background: "#f0f8f3", padding: "4px 10px", borderRadius: "20px", display: "inline-block" }}>{uni.count}</p>
               </div>
-              <p style={{ fontWeight: 700, fontSize: "20px", color: "#1a1a1a", marginBottom: "4px" }}>{uni.name}</p>
-              <p style={{ fontSize: "13px", color: "#888", marginBottom: "12px" }}>{uni.location}</p>
-              <p style={{ fontSize: "12px", color: "#1a6e3c", fontWeight: 600, background: "#f0f8f3", padding: "4px 10px", borderRadius: "20px", display: "inline-block" }}>{uni.count}</p>
-            </div>
+            </a>
           ))}
         </div>
       </section>
@@ -158,28 +160,12 @@ export default function Home() {
                       <span style={{ fontFamily: "'Fraunces', serif", fontSize: "22px", fontWeight: 700, color: "#1a6e3c" }}>{hostel.price}</span>
                       <span style={{ fontSize: "12px", color: "#aaa" }}>/semester</span>
                     </div>
-                    <button className="btn-primary" style={{ padding: "10px 20px", borderRadius: "10px", background: "#1a6e3c", color: "white", border: "none", fontWeight: 600, fontSize: "14px", cursor: "pointer" }}>View Details</button>
+                    <a href="/hostel" className="btn-primary" style={{ padding: "10px 20px", borderRadius: "10px", background: "#1a6e3c", color: "white", fontWeight: 600, fontSize: "14px", textDecoration: "none" }}>View Details</a>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Amenities */}
-      <section style={{ padding: "72px 5%", maxWidth: "1100px", margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: "48px" }}>
-          <p style={{ color: "#1a6e3c", fontWeight: 600, fontSize: "13px", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "10px" }}>What to expect</p>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "36px", color: "#1a1a1a", fontWeight: 700 }}>Filter by amenities that matter</h2>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "16px" }}>
-          {[{ icon: "📶", label: "WiFi" }, { icon: "🔒", label: "24/7 Security" }, { icon: "💧", label: "Running Water" }, { icon: "❄️", label: "Air Conditioning" }, { icon: "🧺", label: "Laundry" }, { icon: "🍳", label: "Kitchen" }, { icon: "🚗", label: "Parking" }, { icon: "📚", label: "Study Room" }].map((a) => (
-            <div key={a.label} className="uni-card" style={{ background: "white", border: "1.5px solid #ece9e0", borderRadius: "14px", padding: "20px", textAlign: "center", cursor: "pointer" }}>
-              <span style={{ fontSize: "28px", display: "block", marginBottom: "10px" }}>{a.icon}</span>
-              <p style={{ fontSize: "13px", fontWeight: 600, color: "#444" }}>{a.label}</p>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -191,7 +177,7 @@ export default function Home() {
           <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "15px", lineHeight: 1.6 }}>List your hostel on Hosta Ghana and get verified.<br />One-time fee or monthly subscription available.</p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-          <button className="btn-primary" style={{ padding: "14px 32px", borderRadius: "12px", background: "#d4a017", color: "white", border: "none", fontWeight: 700, fontSize: "16px", cursor: "pointer" }}>List Your Hostel →</button>
+          <a href="/payment" className="btn-primary" style={{ padding: "14px 32px", borderRadius: "12px", background: "#d4a017", color: "white", fontWeight: 700, fontSize: "16px", textDecoration: "none", textAlign: "center" }}>List Your Hostel →</a>
           <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "12px", textAlign: "center" }}>Starting from GHS 50/month</p>
         </div>
       </section>
